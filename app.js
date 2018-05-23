@@ -4,7 +4,7 @@ let app = express()
 
 let index = require('./routes/index.js')
 
-app.use('/',index)
+app.use('/', index)
 
 
 app.listen(3000)
