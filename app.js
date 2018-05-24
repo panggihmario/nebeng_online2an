@@ -15,4 +15,7 @@ app.use('/provider', providerRoute);
 let customerRoute = require('./routes/customer.js');
 app.use('/customer', customerRoute);
 
+let loginRoute = require('./routes/login.js');
+app.use('/login', loginRoute);
+
 app.listen(3000)
