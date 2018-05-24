@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <table border="1" style="width:100%">
+                <tr>
+                  <th>From</th>
+                  <th>Destination</th> 
+                  <th>Price</th>
+                  <th>Seats</th>
+                  <th>Schedule</th>
+                  <th>Option</th>
+                </tr>
+                <form action="/" method="POST" >
+                
+                    <%for(let i=0;i<schedule.length;i++){%>
+
+                            <tr>
+                                    <td><%=schedule[i].from%></td>
+                                    <td><%=schedule[i].destination%></td>
+                                    <td><%=schedule[i].price%></td>
+                                    <td><%=schedule[i].max_customer%></td>
+                                    <td><%=schedule[i].date%></td>
+                                    <td><a href="/">take</a></td>
+                                  </tr>
+                        <%}%>
+                  
+                 
+                  </table>
+                
+                
+                </form>
+          
+</body>
+</html>
