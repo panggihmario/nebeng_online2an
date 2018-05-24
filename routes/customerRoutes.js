@@ -1,15 +1,17 @@
 const express = require('express')
 var router = express.Router()
 let model = require('../models')
+let bcrypt = require('bcrypt')
 
 
 router.get('/',function(req,res){
     model.Customer.findAll({
-        order :[['id','ASC']]
+        order :[['id','ASC']],
+        include : model.Schedule
     })
     .then(function(dataCustomer){
-        // res.send(dataCustomer)
-        res.render('./customer/customer.ejs',{dataCustomer : dataCustomer})
+        res.send(dataCustomer)
+        // res.render('./customer/customer.ejs',{dataCustomer : dataCustomer})
     })
     .catch(err=>{
         console.log(err)
@@ -17,15 +19,21 @@ router.get('/',function(req,res){
 })
 
 
+
+
 router.get('/addCustomer',function(req,res){
     res.render('./customer/addCustomer.ejs')
 })
 
 router.post('/addCustomer',function(req,res){
+    const saltRounds = 8
+    var salt = bcrypt.genSaltSync(saltRounds);
+   
+    var hash = bcrypt.hashSync(req.body.password, salt);
     let data = {
         name : req.body.name,
         phone : req.body.phone,
-        password : req.body.password
+        password : hash
     }
     model.Customer.create(data)
     .then(()=>{
