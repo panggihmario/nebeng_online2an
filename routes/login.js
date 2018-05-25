@@ -19,8 +19,9 @@ router.get('/',function(req,res,next){
 
 router.post('/',function(req,res,next){
     var salt = bcrypt.genSaltSync(8);
-	var hash = bcrypt.hashSync(req.body.password,salt)
-    let password = bcrypt.compareSync(req.body.password,hash)
+    var hash = bcrypt.hashSync(req.body.password,salt)
+    var pass = req.body.password
+   
     model.Customer.findOne({
         where : {
             name : req.body.name
@@ -28,19 +29,26 @@ router.post('/',function(req,res,next){
     })
     .then(customer=>{
         if(customer){
+            let password = bcrypt.compareSync(pass,customer.password)
             if(password){
             req.session.current_user = customer
-            console.log("===========",req.session.current_user.dataValues)
+            // console.log("===========",req.session.current_user.dataValues)
             next()
             res.redirect('/schedule')
         }else{
             res.render('./customer/loginCustomer.ejs',{messages : "Incorrect name or password"})
         }
+    }else{
+        res.render('./customer/loginCustomer.ejs',{messages : "Incorrect name or password"})
     }
         
     })
 })
 
+router.post('/logout',function(req,res){
+    req.session.current_user = null
+    res.render('home.ejs')
+})
 
 
 module.exports = router

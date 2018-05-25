@@ -7,6 +7,8 @@
     <title>Document</title>
 </head>
 <body>
+
+    <h1>List Schedule</h1><br><br>
         <table border="1" style="width:100%">
                 <tr>
                   <th>From</th>
@@ -16,7 +18,7 @@
                   <th>Schedule</th>
                   <th>Option</th>
                 </tr>
-                <form action="/" method="POST" >
+                <form action="/schedule/<%=schedule.id%>" method="POST" >
                 
                     <%for(let i=0;i<schedule.length;i++){%>
 
@@ -26,15 +28,15 @@
                                     <td><%=schedule[i].price%></td>
                                     <td><%=schedule[i].max_customer%></td>
                                     <td><%=schedule[i].date%></td>
-                                    <td><a href="/">take</a></td>
+                                    <td>
+                                 
+                                        <a href="/schedule/<%=schedule[i].id%>">take</a>
+                                    </td>
                                   </tr>
                         <%}%>
                   
-                 
+                    </form>
                   </table>
-                
-                
-                </form>
           
 </body>
 </html>

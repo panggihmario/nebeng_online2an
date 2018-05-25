@@ -1,8 +1,24 @@
 'use strict';
-const model = require('./')
+
 module.exports = (sequelize, DataTypes) => {
   var Customer = sequelize.define('Customer', {
-    name: DataTypes.STRING,
+    name: {
+      type : DataTypes.STRING,
+      validate : {
+        isUnique : function(name,cb){
+          Customer.findOne({where : {name : name}})
+          .then((name)=>{
+            if(name == undefined){
+              cb()
+            }else{
+             console.log('name has already taken')
+            // cb.send({messages : "name has already taken"})
+            }
+          })
+        }
+      }
+    
+    },
     phone: DataTypes.STRING,
     password: DataTypes.STRING
   }, {
@@ -10,8 +26,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   Customer.associate = function(models) {
     // associations can be defined here
-    Customer.belongsToMany(models.Schedule,{
-      through : "Order",
+    Customer.hasMany(models.Order,{
       foreignKey : "consumer_id"
     })
   };

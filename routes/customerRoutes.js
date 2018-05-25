@@ -7,11 +7,11 @@ let bcrypt = require('bcrypt')
 router.get('/',function(req,res){
     model.Customer.findAll({
         order :[['id','ASC']],
-        include : model.Schedule
+        include : [ { model: model.Order } ]
     })
     .then(function(dataCustomer){
-        res.send(dataCustomer)
-        // res.render('./customer/customer.ejs',{dataCustomer : dataCustomer})
+        // res.send(dataCustomer)
+        res.render('./customer/customer.ejs',{dataCustomer : dataCustomer})
     })
     .catch(err=>{
         console.log(err)
@@ -37,7 +37,7 @@ router.post('/addCustomer',function(req,res){
     }
     model.Customer.create(data)
     .then(()=>{
-        res.redirect('/customer')
+        res.redirect('/login')
     })
     .catch(err=>{
         console.log(err)

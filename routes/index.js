@@ -7,24 +7,42 @@ router.get('/',function(req,res){
 })
 
 router.get('/schedule',function(req,res){
+  console.log("=============",req.params.id)
   model.Schedule.findAll()
   .then(function(schedule){
     // res.send(schedule)
     res.render('schedule.ejs',{schedule : schedule})
+   
   })
 })
 
-router.get('/',function(req,res){
+// router.get('/',function(req,res){
+//   model.Customer.findById(req.params.id)
+//   .then(function(dataSchedule){
+//     res.redirect('/',{dataCustomer : dataCustomer})
+//   })
+// })
+router.get('/schedule/:id',function(req,res){
   model.Schedule.findById(req.params.id)
-  .then(function(dataSchedule){
-    res.redirect('/',{dataSchedule : dataSchedule})
+  .then((data)=>{
+    res.render('homepage.ejs',{data : data})
   })
 })
 
-router.post('/',function(req,res){
-  model.Customer.Schedules.push(model.Schedule)
+
+router.post('/schedule/:id',function(req,res){
+  let idCustomer = req.session.current_user.id
+
+  let idSchedule = req.params.id
+  model.Order.create({
+    consumer_id : idCustomer,
+    schedule_id : idSchedule
+  })
   .then(function(){
-    res.redirect('/')
+    res.redirect('/schedule')
+  })
+  .catch(err=>{
+    console.log(err)
   })
 })
 module.exports = router

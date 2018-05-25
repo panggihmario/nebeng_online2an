@@ -11,8 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Schedule.associate = function(models) {
     // associations can be defined here
-    Schedule.belongsToMany(models.Customer,{
-      through : "Order",
+    Schedule.hasMany(models.Order,{
       foreignKey : "schedule_id"
     })
   };
